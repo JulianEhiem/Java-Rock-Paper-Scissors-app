@@ -3,18 +3,14 @@ import org.w3c.dom.ls.LSOutput;
 import java.util.Scanner;
 
 public class Main {
+    static int gameCount = 0;
+    static int[] score = {0, 0};
     public static void main(String[] args) {
         System.out.println("Hello Gamer!");
-        int computer = 0;
-        int human = 0;
-
+//        int[] score = new int[2]; //c,h
         gameplay();
+        scoreCard(score[0], score[1]);
 
-        if (askReplay()) {
-            gameplay();
-        } else {
-            scoreCard(computer, human);
-        }
 
 
 //        TODO: Computer asks what your choice is
@@ -24,22 +20,30 @@ public class Main {
 //        TODO: Computer responds appropriately
     }
     public static void gameplay(){
-        Scanner invitation = new Scanner(System.in);
-        System.out.print("Do you want to play a game of Rock, Paper, Scissors with me? (y/n): ");
-        String response = invitation.next();
-        char decision = response.charAt(0);
-        boolean len = response.length() == 1;
+        String response = "";
+        if(gameCount == 0) {
+            Scanner invitation = new Scanner(System.in);
+            System.out.print("Do you want to play a game of Rock, Paper, Scissors with me? (y/n): ");
+            response = invitation.next();
+        };
+        char decision = gameCount == 0 ? response.charAt(0) : 'y';
+        boolean len = gameCount != 0 || response.length() == 1;
         if (decision == 'y' && len) {
             System.out.println("Great let's play!");
             String playerChoice = playerChoice();
             String computerChoice = computerChoice();
-            winnerDeclaration(playerChoice,computerChoice);
+            String whoWon = winnerDeclaration(playerChoice,computerChoice);
+            if(whoWon.equals("computer")) score[0]++;
+            if(whoWon.equals("human")) score[1]++;
+            gameCount++;
         };
         if (decision == 'n' && len) System.out.println("Maybe next time.");
         if ((decision != 'n' && decision != 'y') || !len) {
             System.out.println("Please respond with either 'y' or 'n'.");
             gameplay();
         }
+
+        if(askReplay()) gameplay();
     }
 
     public static String playerChoice() {
@@ -60,24 +64,47 @@ public class Main {
         int index = (int) Math.floor(Math.random() * 2.999);
         return choices[index];
     }
-    public static void winnerDeclaration(String player, String computer){
+    public static String winnerDeclaration(String player, String computer){
+        String winner = "";
         switch (player){
             case "rock":
-                if(computer.equals("rock")) System.out.println("I chose rock, it's a tie");
-                if(computer.equals("paper")) System.out.println("I chose paper, so I win");
-                if(computer.equals("scissors")) System.out.println("I chose scissors, so you win");
+                if(computer.equals("rock")) {
+                    System.out.println("I chose rock, it's a tie");
+                    winner = "tie";
+                }
+                else if(computer.equals("paper")) {
+                    System.out.println("I chose paper, so I win");
+                    winner = "computer";
+                }
+                else if(computer.equals("scissors")) {
+                System.out.println("I chose scissors, so you win");
+                    winner = "human";
+                }
                 break;
             case "paper":
-                if(computer.equals("rock")) System.out.println("I chose rock, so you win");
-                if(computer.equals("paper")) System.out.println("I chose paper, it's a tie");
-                if(computer.equals("scissors")) System.out.println("I chose scissors, so I win");
+                if(computer.equals("rock")) {
+                    System.out.println("I chose rock, so you win");
+                    winner = "human";
+                }
+                else if(computer.equals("paper")) {
+                    System.out.println("I chose paper, it's a tie");
+                    winner = "tie";
+                }
+                else if(computer.equals("scissors")) System.out.println("I chose scissors, so I win"); winner = "computer";
                 break;
             case "scissors":
-                if(computer.equals("rock")) System.out.println("I chose rock, so I win");
-                if(computer.equals("paper")) System.out.println("I chose paper, so you win");
-                if(computer.equals("scissors")) System.out.println("I chose scissors, it's a tie");
+                if(computer.equals("rock")) {
+                    System.out.println("I chose rock, so I win");
+                    winner = "computer";
+                }
+                else if(computer.equals("paper")) {
+                    System.out.println("I chose paper, so you win");
+                    winner = "human";
+                }
+                else if(computer.equals("scissors")) System.out.println("I chose scissors, it's a tie"); winner = "tie";
                 break;
         }
+        return winner;
     }
 
     public static boolean askReplay(){

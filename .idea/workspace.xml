@@ -74,4 +74,21 @@
     <MESSAGE value="Initialized app" />
     <option name="LAST_COMMIT_MESSAGE" value="Initialized app" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Main.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="score[0]" language="JAVA" />
+        <watch expression="score[1]" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
 </project>

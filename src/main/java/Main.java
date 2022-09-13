@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 public class Main {
     static String playerChoice = "";
     static String computerChoice = "";
@@ -120,8 +119,6 @@ public class Main {
                 Main.finalScore[0] += 1;
                 break;
         };
-        System.out.println(roundScore[0] + " : " + roundScore[1]);
-        System.out.println(finalScore[0] + " : " + finalScore[1]);
         askRematch();
     }
     public static void askRematch() {
